@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 13:56:32 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 03:27:14 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/05 23:16:31 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ static t_all	*ft_init_elements(int ac, char **av)
 		all->min_times_eat = (long)ft_atoll(av[5]);
 	else
 		all->min_times_eat = -1;
-	all->loop.value = true;
+	all->loop.value = 0;
 	if ((ft_check_arg(ac, av, all) == false)
 		| pthread_mutex_init(&all->loop.value_mu, NULL))
 	{

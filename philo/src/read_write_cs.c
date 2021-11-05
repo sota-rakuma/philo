@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 19:22:07 by srakuma           #+#    #+#             */
-/*   Updated: 2021/10/26 14:30:10 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/05 22:50:08 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,27 @@ void	atomic_read_write(t_cs *cs, long val, t_op op)
 		ft_print_error_message("mutex unlock error", __FILE__, __func__);
 }
 
-void	write_status(t_loop *loop, bool val)
+void	atomic_read_write_status(t_loop *loop, int val, t_op op)
+{
+	if (pthread_mutex_lock(&loop->value_mu))
+		ft_print_error_message("mutex lock error", __FILE__, __func__);
+	if (op == ADD)
+		loop->value += val;
+	else if (op == SUB)
+		loop->value -= val;
+	else if (op == MUL)
+		loop->value *= val;
+	else if (op == DIV)
+		loop->value /= val;
+	else if (op == MOD)
+		loop->value %= val;
+	else
+		loop->value = val;
+	if (pthread_mutex_unlock(&loop->value_mu))
+		ft_print_error_message("mutex unlock error", __FILE__, __func__);
+}
+
+void	write_status(t_loop *loop, int val)
 {
 	if (pthread_mutex_lock(&loop->value_mu))
 		ft_print_error_message("mutex lock error", __FILE__, __func__);
@@ -62,9 +82,9 @@ void	write_status(t_loop *loop, bool val)
 		ft_print_error_message("mutex unlock error", __FILE__, __func__);
 }
 
-bool	read_status(t_loop *loop)
+int	read_status(t_loop *loop)
 {
-	bool	ret;
+	int	ret;
 
 	if (pthread_mutex_lock(&loop->value_mu))
 		ft_print_error_message("mutex lock error", __FILE__, __func__);

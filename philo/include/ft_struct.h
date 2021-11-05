@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 13:34:45 by srakuma           #+#    #+#             */
-/*   Updated: 2021/10/30 15:26:38 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/05 22:48:35 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ typedef pthread_mutex_t	t_mutex;
 
 typedef struct s_loop
 {
-	bool		value;
+	int			value;
 	t_mutex		value_mu;
 }				t_loop;
 

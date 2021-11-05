@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 16:49:33 by srakuma           #+#    #+#             */
-/*   Updated: 2021/10/26 19:26:52 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/05 23:19:24 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,20 @@ static void	*ft_death_monitor(void *val)
 	t_philo	*philo;
 
 	philo = (t_philo *)val;
-	write_cs(&philo->lm, get_mtime());
+	atomic_read_write(&philo->lm, get_mtime(), ASSIGN);
 	lastmeal_time = 0;
 	while (lastmeal_time < read_cs(&philo->lm))
 	{
-		if (philo->all->min_times_eat == read_cs(&philo->eaten))
+		if (read_status(&philo->all->loop) == philo->all->philo_num)
 			return (NULL);
 		lastmeal_time = read_cs(&philo->lm);
 		deadline = lastmeal_time + philo->all->time_to_die;
 		ft_msleep_until_time(deadline);
 	}
-	if (read_status(&philo->all->loop) == false)
+	if (read_status(&philo->all->loop) == philo->all->philo_num)
 		return (NULL);
-	write_status(&philo->all->loop, false);
+	atomic_read_write_status(&philo->all->loop, philo->all->philo_num, ASSIGN);
+	//write_status(&philo->all->loop, false);
 	ft_print_philos_status(philo, DIED);
 	return (NULL);
 }
@@ -60,7 +61,7 @@ void	*the_life_of_philo(void *ph)
 
 	philo = (t_philo *)ph;
 	ft_get_philo_ele(philo);
-	if (read_status(&philo->all->loop) == false)
+	if (read_status(&philo->all->loop) == philo->all->philo_num)
 		return (NULL);
 	ft_print_philos_status(philo, THINK);
 	pthread_create(&tid, NULL, ft_death_monitor, ph);
@@ -68,11 +69,11 @@ void	*the_life_of_philo(void *ph)
 	{
 		if (ft_philo_eat(philo) == false)
 			break ;
-		if (read_status(&philo->all->loop) == false)
+		if (read_status(&philo->all->loop) == philo->all->philo_num)
 			break ;
 		ft_print_philos_status(philo, SLEEP);
 		ft_msleep_until_time(get_mtime() + philo->all->time_to_sleep);
-		if (read_status(&philo->all->loop) == false)
+		if (read_status(&philo->all->loop) == philo->all->philo_num)
 			break ;
 		ft_print_philos_status(philo, THINK);
 	}
