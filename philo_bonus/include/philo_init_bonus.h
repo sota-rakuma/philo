@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 15:21:50 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/02 00:51:32 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/06 19:55:09 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,6 @@
 
 # include "ft_struct_bonus.h"
 
-t_philo	*ft_init_philo(t_all *all, char **sem_name);
+t_philo	*ft_init_philo(t_all *all);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 15:22:56 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 01:07:53 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/06 16:37:34 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,11 @@ typedef struct s_all
 
 typedef struct s_philo
 {
-	int			philo_x;
-	sem_t		*forks[2];
-	pid_t		*pid;
-	t_all		*all;
+	int		philo_x;
+	sem_t	*reservation;
+	sem_t	*forks;
+	pid_t	*pid;
+	t_all	*all;
 }				t_philo;
 
 #endif

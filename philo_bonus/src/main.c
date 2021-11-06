@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 15:28:38 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 03:40:40 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/06 17:38:05 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,32 +74,10 @@ static t_all	*ft_init_elements(int ac, char **av)
 	return (all);
 }
 
-char	**ft_get_sem_names(int number_of_philos)
-{
-	char	**forks;
-	int		i;
-
-	forks = (char **)malloc(sizeof(char *) * number_of_philos);
-	if (!forks)
-		return (NULL);
-	i = 0;
-	while (i++ < number_of_philos)
-	{
-		forks[i - 1] = ft_itoa(i);
-		if (!forks[i - 1])
-		{
-			ft_free_dbl_ptr((void **)forks, i);
-			return (NULL);
-		}
-	}
-	return (forks);
-}
-
 int	main(int ac, char **av)
 {
 	t_all	*all;
 	t_philo	*philo;
-	char	**sem_name;
 
 	if (ac < 5 || 6 < ac)
 	{
@@ -107,14 +85,8 @@ int	main(int ac, char **av)
 		return (FAILURE);
 	}
 	all = ft_init_elements(ac, av);
-	sem_name = ft_get_sem_names(all->philo_num);
-	if (!sem_name)
-	{
-		free(all);
-		exit(FAILURE);
-	}
-	philo = ft_init_philo(all, sem_name);
+	philo = ft_init_philo(all);
 	start_philo_life(philo);
-	ft_destructor(philo, sem_name);
+	ft_destructor(philo);
 	return (0);
 }
