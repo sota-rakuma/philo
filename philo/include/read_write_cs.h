@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:20:17 by srakuma           #+#    #+#             */
-/*   Updated: 2021/10/26 15:04:36 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/05 22:47:35 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,12 +33,14 @@ typedef enum e_op
 	MUL,
 	DIV,
 	MOD,
+	ASSIGN,
 }			t_op;
 
 void	write_cs(t_cs *cs, long val);
 long	read_cs(t_cs *cs);
 void	atomic_read_write(t_cs *cs, long val, t_op op);
-void	write_status(t_loop *st, bool val);
-bool	read_status(t_loop *st);
+void	write_status(t_loop *st, int val);
+int		read_status(t_loop *st);
+void	atomic_read_write_status(t_loop *loop, int val, t_op op);
 
 #endif

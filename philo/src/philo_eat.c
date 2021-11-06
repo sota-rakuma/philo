@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:17:16 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 17:57:25 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/05 22:55:03 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,15 @@ static bool	ft_cleanup(t_philo *philo)
 	pthread_mutex_unlock(philo->forks[RIGHT]);
 	pthread_mutex_unlock(philo->forks[LEFT]);
 	if (read_cs(&philo->eaten) == philo->all->min_times_eat)
-		return (false);
+		atomic_read_write_status(&philo->all->loop, 1, ADD);
+	//return (false);
 	return (true);
 }
 
 static bool	taken_fork(t_philo *philo, int index)
 {
 	pthread_mutex_lock(philo->forks[index]);
-	if (read_status(&philo->all->loop) == false)
+	if (read_status(&philo->all->loop) == philo->all->philo_num)
 	{
 		pthread_mutex_unlock(philo->forks[index]);
 		return (false);
@@ -56,7 +57,7 @@ bool	ft_philo_eat(t_philo *philo)
 		return (false);
 	if (taken_forks_at_both_side_of_philo(philo) == false)
 		return (false);
-	if (read_status(&philo->all->loop) == false)
+	if (read_status(&philo->all->loop) == philo->all->philo_num)
 	{
 		pthread_mutex_unlock(philo->forks[RIGHT]);
 		pthread_mutex_unlock(philo->forks[LEFT]);
@@ -64,7 +65,7 @@ bool	ft_philo_eat(t_philo *philo)
 	}
 	ft_print_philos_status(philo, EAT);
 	atomic_read_write(&philo->eaten, 1, ADD);
-	write_cs(&philo->lm, get_mtime());
+	atomic_read_write(&philo->lm, get_mtime(), ASSIGN);
 	ft_msleep_until_time(get_mtime() + philo->all->time_to_eat);
 	return (ft_cleanup(philo));
 }
