@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 19:22:07 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 22:50:08 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/06 20:04:33 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,15 +69,6 @@ void	atomic_read_write_status(t_loop *loop, int val, t_op op)
 		loop->value %= val;
 	else
 		loop->value = val;
-	if (pthread_mutex_unlock(&loop->value_mu))
-		ft_print_error_message("mutex unlock error", __FILE__, __func__);
-}
-
-void	write_status(t_loop *loop, int val)
-{
-	if (pthread_mutex_lock(&loop->value_mu))
-		ft_print_error_message("mutex lock error", __FILE__, __func__);
-	loop->value = val;
 	if (pthread_mutex_unlock(&loop->value_mu))
 		ft_print_error_message("mutex unlock error", __FILE__, __func__);
 }
