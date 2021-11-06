@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 00:27:49 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/06 18:15:19 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/06 19:57:17 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,11 @@
 #  define FOR_PRINT "for_print"
 # endif
 
-
 # include <semaphore.h>
 # include <stdio.h>
 # include "ft_struct_bonus.h"
 
 void	ft_destructor(t_philo *philo);
 bool	ft_get_philo_ele(t_philo *philo, t_all *all);
-t_philo	*ft_init_philo(t_all *all);
 
 #endif

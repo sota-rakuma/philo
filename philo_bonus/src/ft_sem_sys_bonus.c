@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 00:27:20 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/06 18:17:06 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/06 19:56:14 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ static bool	ft_init_sem(t_all *all, sem_t **forks, sem_t **reservation)
 {
 	sem_unlink(FORK);
 	*forks = sem_open(FORK, O_CREAT | O_EXCL, 022, all->philo_num);
-	if (forks == SEM_FAILED)
+	if (*forks == SEM_FAILED)
 		return (false);
 	sem_unlink(RESERVE);
 	*reservation = sem_open(RESERVE, O_CREAT | O_EXCL, 022, all->philo_num / 2);
-	if (reservation == false)
+	if (*reservation == false)
 	{
-		sem_close(forks);
+		sem_close(*forks);
 		sem_unlink(FORK);
 		return (false);
 	}
