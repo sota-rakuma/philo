@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 02:52:08 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 03:45:10 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 03:55:22 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ void	kill_multi_child_proc(t_childlen *childlen, int sig)
 
 static void	*wait_all_childlen_ate(void *val)
 {
-	int	j;
+	int			i;
 	t_childlen	*childlen;
 
 	childlen = (t_childlen *)val;
-	j = 0;
-	while (j++ < childlen->size)
+	i = 0;
+	while (i++ < childlen->size)
 		sem_wait(childlen->term_sem);
 	kill_multi_child_proc(childlen, SIGINT);
 	return (NULL);

@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 23:39:04 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 03:36:58 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 03:55:05 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static bool	ft_start_child_process(t_philo *philo, t_childlen *childlen)
 			return (false);
 		}
 		else if (childlen->pid[childlen->size] == 0)
-			the_life_of_philo(&philo[childlen->size]); // prepare, term_sem
+			the_life_of_philo(&philo[childlen->size]);
 		childlen->size++;
 	}
 	return (true);
@@ -35,7 +35,7 @@ static bool	ft_start_child_process(t_philo *philo, t_childlen *childlen)
 
 static t_childlen	*init_childlen(t_philo *philo)
 {
-	t_childlen *childlen;
+	t_childlen	*childlen;
 
 	childlen = (t_childlen *)malloc(sizeof(t_childlen));
 	if (!childlen)
