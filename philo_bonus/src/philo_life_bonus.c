@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 21:50:38 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 01:21:19 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 02:08:00 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ static void	taking_forks(t_philo *philo)
 	}
 	sem_wait(philo->forks);
 	ft_print_philos_status(philo, TAKEN_A_FORK);
-	sem_post(philo->reservation);
 }
 
 void	ft_philo_eat(t_philo *philo, sem_t *for_eaten_cnt)
@@ -99,6 +98,7 @@ void	ft_philo_eat(t_philo *philo, sem_t *for_eaten_cnt)
 	lastmeal = get_mtime();
 	atomic_read_write(&philo->lastmeal, lastmeal, ASSIGN);
 	ft_msleep_until_time(lastmeal + philo->all->time_to_eat);
+	sem_post(philo->reservation);
 	ft_cleanup(philo, for_eaten_cnt);
 }
 

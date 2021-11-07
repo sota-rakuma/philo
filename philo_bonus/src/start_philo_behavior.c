@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 23:39:04 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 01:18:07 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 02:07:10 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,52 @@ static bool	ft_start_child_process(t_philo *philo, t_childlen *childlen)
 		if (childlen->pid[childlen->size] == -1)
 		{
 			kill_multi_child_proc(childlen, SIGTERM);
-			ft_print_error_message("could not make a child process", __FILE__, __func__);
+			ft_print_error_message("could not make a child process", \
+														__FILE__, __func__);
 			return (false);
 		}
 		else if (childlen->pid[childlen->size] == 0)
 			the_life_of_philo(&philo[childlen->size]); // prepare, term_sem
 		childlen->size++;
 	}
+	return (true);
+}
+
+bool	init_childlen(t_childlen *childlen, t_philo *philo)
+{
+	childlen->pid = (pid_t *)malloc(sizeof(pid_t *) * philo->all->philo_num);
+	if (!childlen->pid)
+	{
+		ft_print_error_message("pid malloc error", __FILE__, __func__);
+		return (false);
+	}
+	memset(childlen->pid, 0, philo->all->philo_num);
+	sem_unlink(TERM_SEM);
+	childlen->term_sem = sem_open(TERM_SEM, O_CREAT | O_EXCL, \
+									700, philo->all->philo_num);
+	if (childlen->term_sem == SEM_FAILED)
+	{
+		free(childlen->pid);
+		ft_print_error_message("sem_open error", __FILE__, __func__);
+		return (false);
+	}
+	return (true);
+}
+
+bool	synchronize_all_proc(t_philo *philo, sem_t *prepare, \
+												t_childlen *childlen)
+{
+	int	i;
+
+	i = 0;
+	while (i++ < philo->all->philo_num)
+		sem_wait(prepare);
+	if (ft_start_child_process(philo, childlen) == false)
+		return (false);
+	i = 0;
+	while (i++ < philo->all->philo_num)
+		sem_post(prepare);
+	usleep(1000);
 	return (true);
 }
 
@@ -62,75 +101,44 @@ void	*wait_all_childlen_ate(void *val)
 	return (NULL);
 }
 
+void	wait_for_childlen(t_childlen *childlen)
+{
+	pthread_t	tid2;
+	int			status;
+
+	pthread_create(&tid2, NULL, wait_all_childlen_ate, (void *)childlen);
+	waitpid(-1, &status, 0);
+	if (WIFEXITED(status))
+	{
+		kill_multi_child_proc(childlen, SIGTERM);
+		if (WEXITSTATUS(status))
+			printf("%ld %d died\n", get_mtime(), _W_INT(status) >> 8);
+		pthread_detach(tid2);
+		free(childlen->pid);
+		return ;
+	}
+	pthread_join(tid2, NULL);
+	free(childlen->pid);
+}
+
 void	start_philo_life(t_philo *philo)
 {
 	t_childlen	childlen;
 	sem_t		*prepare;
 
-	childlen.pid = (pid_t *)malloc(sizeof(pid_t *) * philo->all->philo_num);
-	if (!childlen.pid)
-	{
-		ft_print_error_message("pid malloc error", __FILE__, __func__);
-		return ;
-	}
-	memset(childlen.pid, 0, philo->all->philo_num);
-
 	sem_unlink(PREPARE);
 	prepare = sem_open(PREPARE, O_CREAT | O_EXCL, 700, philo->all->philo_num);
-
-	sem_unlink(TERM_SEM);
-	childlen.term_sem = sem_open(TERM_SEM, O_CREAT | O_EXCL, 700, philo->all->philo_num);
-
-	if (prepare == SEM_FAILED | childlen.term_sem == SEM_FAILED)
+	if (prepare == SEM_FAILED)
 	{
-		free(childlen.pid);
-		/*sem_close(prepare);
-		sem_close(childlen.term_sem);
-		sem_unlink(PREPARE);
-		sem_unlink(TERM_SEM);*/
 		ft_print_error_message("sem_open error", __FILE__, __func__);
 		return ;
 	}
-
-
-	int	i;
-
-	i = 0;
-	while (i++ < philo->all->philo_num)
-		sem_wait(prepare);
-	if (ft_start_child_process(philo, &childlen) == false)
-	{
-		free(childlen.pid);
-		sem_close(prepare);
-		sem_unlink(PREPARE);
+	if (init_childlen(&childlen, philo) == false)
 		return ;
-	}
-	i = 0;
-	while (i++ < philo->all->philo_num)
-		sem_post(prepare);
-	usleep(1000);
-
-
-	pthread_t	tid2;
-
-	pthread_create(&tid2, NULL, wait_all_childlen_ate, (void *)&childlen);
-
-	pid_t		child;
-	int			status;
-
-	child = waitpid(-1, &status, 0);
-	if (WIFEXITED(status))
+	if (synchronize_all_proc(philo, prepare, &childlen))
 	{
-		kill_multi_child_proc(&childlen, SIGINT);
-		if (WEXITSTATUS(status))
-			printf("%ld %d died\n", get_mtime(), _W_INT(status) >> 8);
-		pthread_detach(tid2);
 		free(childlen.pid);
 		return ;
 	}
-	printf("after wait time: %ld, philo->x: %d\n", get_mtime(), _W_INT(status) >> 8);
-	//if (WIFSIGNALED(status))
-	pthread_join(tid2, NULL);
-	free(childlen.pid);
-	return ;
+	return (wait_for_childlen(&childlen));
 }
