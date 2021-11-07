@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 15:28:38 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/06 17:38:05 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 01:13:28 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,12 @@ static bool	ft_check_arg(int ac, char **av, t_all *all)
 static bool	ft_get_all_elements(t_all *all, int ac, char **av)
 {
 	sem_unlink("for_print");
-	all->for_print = sem_open("for_print", O_CREAT | O_EXCL, 022, 1);
+	all->for_print = sem_open("for_print", O_CREAT | O_EXCL, 700, 1);
 	if (all->for_print == SEM_FAILED)
+	{
 		ft_print_error_message("sem open error", __FILE__, __func__);
+		return (false);
+	}
 	all->philo_num = ft_atoi(av[1]);
 	all->time_to_die = (long)ft_atoll(av[2]);
 	all->time_to_eat = (long)ft_atoll(av[3]);
@@ -74,19 +77,40 @@ static t_all	*ft_init_elements(int ac, char **av)
 	return (all);
 }
 
-int	main(int ac, char **av)
+static void	main_process(int ac, char **av)
 {
 	t_all	*all;
 	t_philo	*philo;
+
+	all = ft_init_elements(ac, av);
+	philo = ft_init_philo(all);
+	start_philo_life(philo);
+	ft_destructor(philo);
+	exit(0);
+}
+
+void	ft_all_sem_unlink(void)
+{
+	sem_unlink(FORK);
+	sem_unlink(PREPARE);
+	sem_unlink(TERM_SEM);
+	sem_unlink(RESERVE);
+	sem_unlink(FOR_PRINT);
+}
+
+int	main(int ac, char **av)
+{
+	pid_t	pid;
 
 	if (ac < 5 || 6 < ac)
 	{
 		ft_print_error_message("input right argument", __FILE__, __func__);
 		return (FAILURE);
 	}
-	all = ft_init_elements(ac, av);
-	philo = ft_init_philo(all);
-	start_philo_life(philo);
-	ft_destructor(philo);
+	pid = fork();
+	if (pid == 0)
+		main_process(ac, av);
+	waitpid(pid, NULL, 0);
+	ft_all_sem_unlink();
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 15:33:58 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/04 17:21:27 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 01:06:00 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,18 @@ typedef enum e_op
 	MUL,
 	DIV,
 	MOD,
+	ASSIGN,
 }			t_op;
 
+typedef struct s_childlen
+{
+	int		size;
+	pid_t	*pid;
+	sem_t	*term_sem;
+}				t_childlen;
+
 void	the_life_of_philo(t_philo *philo);
-void	kill_multi_child_proc(t_philo *philo, int sig, int size);
+void	kill_multi_child_proc(t_childlen *childlen, int sig);
 void	start_philo_life(t_philo *philo);
 void	ft_print_philos_status(t_philo *philo, t_status status);
 

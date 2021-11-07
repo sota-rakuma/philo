@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 00:27:49 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/06 19:57:17 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/07 05:05:47 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@
 #  define FORK "fork"
 #  define RESERVE "reservation"
 #  define FOR_PRINT "for_print"
+#  define PREPARE "prepare"
+#  define FOR_EATEN_CNT "for_eaten_cnt"
+#  define TERM_SEM "term_sem"
 # endif
 
-# include <semaphore.h>
 # include <stdio.h>
 # include "ft_struct_bonus.h"
+
+
 
 void	ft_destructor(t_philo *philo);
 bool	ft_get_philo_ele(t_philo *philo, t_all *all);

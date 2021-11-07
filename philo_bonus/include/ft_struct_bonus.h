@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 15:22:56 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/06 16:37:34 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 01:03:18 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,13 @@
 
 # include <stdbool.h>
 # include <semaphore.h>
+# include <semaphore.h>
+
+typedef struct s_cs
+{
+	long	val;
+	sem_t	*sem;
+}				t_cs;
 
 typedef struct s_all
 {
@@ -31,7 +38,8 @@ typedef struct s_philo
 	int		philo_x;
 	sem_t	*reservation;
 	sem_t	*forks;
-	pid_t	*pid;
+	t_cs	lastmeal;
+	//pid_t	*pid;
 	t_all	*all;
 }				t_philo;
 
