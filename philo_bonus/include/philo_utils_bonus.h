@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 13:51:15 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 03:19:51 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 03:42:57 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ long long	ft_atoll(const char *str);
 int			ft_atoi(const char *str);
 char		*ft_itoa(int n);
 void		ft_msleep_until_time(long time);
-void		ft_free_dbl_ptr(void **ptr, size_t size);
 int			ft_isdigit(int c);
 
 #endif

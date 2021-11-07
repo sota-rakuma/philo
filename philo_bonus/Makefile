@@ -3,13 +3,14 @@ CFLAGS=-Wall -Wextra -Werror #-g -fsanitize=thread
 
 NAME:=philo_bonus
 SRC_DIR:=src
-SRC_FILES:=main.c \
-	philo_life_bonus.c \
+SRC_FILES:=ft_init_t_all.c \
+	main.c \
 	philo_init_bonus.c \
+	philo_life_bonus.c \
+	read_write_cs.c \
 	start_philo_behavior.c \
-	ft_sem_sys_bonus.c \
+	using_thread_funcs.c \
 	ft_ato_num.c \
-	ft_free_dbl_ptr.c \
 	ft_itoa.c \
 	ft_isdigit.c \
 	ft_msleep_until_time.c \

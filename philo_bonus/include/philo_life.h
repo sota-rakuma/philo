@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   philo_init_bonus.h                                 :+:      :+:    :+:   */
+/*   philo_life.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/30 15:21:50 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/06 19:55:09 by srakuma          ###   ########.fr       */
+/*   Created: 2021/11/08 03:30:29 by srakuma           #+#    #+#             */
+/*   Updated: 2021/11/08 03:47:00 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PHILO_INIT_BONUS_H
-# define PHILO_INIT_BONUS_H
+#ifndef PHILO_LIFE_H
+# define PHILO_LIFE_H
 
-# ifndef SUCCESS
-#  define SUCCESS 0
-# endif
+# include "start_philo_behavior.h"
 
-# ifndef FAILURE
-#  define FAILURE 1
-# endif
+typedef enum e_status
+{
+	TAKEN_A_FORK,
+	EAT,
+	SLEEP,
+	THINK,
+	DIED,
+}			t_status;
 
-# include "ft_struct_bonus.h"
-
-t_philo	*ft_init_philo(t_all *all);
+void	ft_print_philos_status(t_philo *philo, t_status status);
+void	ft_philo_eat(t_philo *philo, sem_t *for_eaten_cnt);
 
 #endif

@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sem_sys_bonus.h                                 :+:      :+:    :+:   */
+/*   ft_init_t_all.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 00:27:49 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/07 05:05:47 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/11/08 03:28:51 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef FT_SEM_SYS_BONUS_H
 # define FT_SEM_SYS_BONUS_H
 
-# ifndef RIGHT
-#  define RIGHT 0
+# ifndef SUCCESS
+#  define SUCCESS 0
 # endif
 
-# ifndef LEFT
-#  define LEFT 1
+# ifndef FAILURE
+#  define FAILURE 1
 # endif
 
 # ifndef SEM_NAME
@@ -31,11 +31,20 @@
 # endif
 
 # include <stdio.h>
-# include "ft_struct_bonus.h"
+# include <semaphore.h>
+# include <stdbool.h>
+# include "philo_utils_bonus.h"
 
+typedef struct s_all
+{
+	int		philo_num;
+	long	min_times_eat;
+	long	time_to_eat;
+	long	time_to_die;
+	long	time_to_sleep;
+	sem_t	*for_print;
+}				t_all;
 
-
-void	ft_destructor(t_philo *philo);
-bool	ft_get_philo_ele(t_philo *philo, t_all *all);
+t_all	*ft_init_elements(int ac, char **av);
 
 #endif

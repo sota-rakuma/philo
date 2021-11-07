@@ -1,21 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_struct_bonus.h                                  :+:      :+:    :+:   */
+/*   read_write_cs.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/30 15:22:56 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 01:03:18 by srakuma          ###   ########.fr       */
+/*   Created: 2021/11/08 02:40:12 by srakuma           #+#    #+#             */
+/*   Updated: 2021/11/08 03:11:01 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_STRUCT_BONUS_H
-# define FT_STRUCT_BONUS_H
+#ifndef READ_WRITE_CS_H
+# define READ_WRITE_CS_H
 
-# include <stdbool.h>
 # include <semaphore.h>
-# include <semaphore.h>
+
+typedef enum e_op
+{
+	ADD,
+	SUB,
+	MUL,
+	DIV,
+	MOD,
+	ASSIGN,
+}			t_op;
 
 typedef struct s_cs
 {
@@ -23,24 +31,7 @@ typedef struct s_cs
 	sem_t	*sem;
 }				t_cs;
 
-typedef struct s_all
-{
-	int		philo_num;
-	long	min_times_eat;
-	long	time_to_eat;
-	long	time_to_die;
-	long	time_to_sleep;
-	sem_t	*for_print;
-}				t_all;
-
-typedef struct s_philo
-{
-	int		philo_x;
-	sem_t	*reservation;
-	sem_t	*forks;
-	t_cs	lastmeal;
-	//pid_t	*pid;
-	t_all	*all;
-}				t_philo;
+long	read_cs(t_cs *cs);
+void	atomic_read_write(t_cs *cs, long val, t_op op);
 
 #endif

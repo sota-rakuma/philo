@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_free_dbl_ptr.c                                  :+:      :+:    :+:   */
+/*   start_philo_behavior.h                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/10/31 23:04:09 by srakuma           #+#    #+#             */
-/*   Updated: 2021/10/31 23:07:06 by srakuma          ###   ########.fr       */
+/*   Created: 2021/11/08 03:03:05 by srakuma           #+#    #+#             */
+/*   Updated: 2021/11/08 03:44:20 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philo_utils_bonus.h"
+#ifndef START_PHILO_BEHAVIOR_H
+# define START_PHILO_BEHAVIOR_H
 
-/*
-* Each pointer must be malloc'd and the double pointer must also be malloc'd
-*/
-void	ft_free_dbl_ptr(void **ptr, size_t size)
+# include "ft_init_t_all.h"
+# include "read_write_cs.h"
+
+typedef struct s_philo
 {
-	size_t	i;
+	int		philo_x;
+	sem_t	*reservation;
+	sem_t	*forks;
+	t_cs	lastmeal;
+	t_all	*all;
+}				t_philo;
 
-	i = 0;
-	while (i < size)
-	{
-		free(ptr[i]);
-		i++;
-	}
-	free(ptr);
-}
+t_philo	*ft_init_philo(t_all *all);
+void	start_philo_life(t_philo *philo);
+
+#endif
