@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 02:52:47 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 03:43:46 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/01 01:25:49 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,16 @@
 # include <semaphore.h>
 # include <signal.h>
 # include "start_philo_behavior.h"
+# include "avl_tree.h"
 
-typedef struct s_childlen
+typedef struct s_sem_and_size
 {
+	sem_t	*sem;
 	int		size;
-	pid_t	*pid;
-	sem_t	*term_sem;
-}				t_childlen;
+}				t_sem_and_size;
 
-void	wait_for_childlen(t_childlen *childlen);
+void	wait_for_childlen(t_avl *childlen, int sem_size);
 void	the_life_of_philo(t_philo *philo);
-void	kill_multi_child_proc(t_childlen *childlen, int sig);
+void	kill_multi_child_proc(t_avl *childlen, int sig);
 
 #endif

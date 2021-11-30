@@ -16,9 +16,18 @@ SRC_FILES:=ft_init_t_all.c \
 	ft_msleep_until_time.c \
 	ft_print_error.c \
 	ft_strlen.c \
-	get_mtime.c
+	get_mtime.c \
+	add_node.c \
+	copy_node.c \
+	create_node.c \
+	delete_node.c \
+	destruct_avl.c \
+	replace_node.c \
+	rotate_avl.c \
+	search_node.c 
 
 UTILS_DIR:=utils
+AVL_DIR:=avl_tree
 
 NAME:=$(NAME)
 
@@ -28,7 +37,7 @@ OBJS:=$(addprefix $(OBJS_DIR)/, $(notdir $(SRC_FILES:.c=.o)))
 DEPS_DIR:=dep
 DEPS:=$(addprefix $(DEPS_DIR)/, $(notdir $(SRC_FILES:.c=.o)))
 
-vpath %.c $(SRC_DIR):$(SRC_DIR)/$(UTILS_DIR)
+vpath %.c $(SRC_DIR):$(SRC_DIR)/$(UTILS_DIR):$(SRC_DIR)/$(UTILS_DIR)/$(AVL_DIR)
 
 all: $(NAME)
 

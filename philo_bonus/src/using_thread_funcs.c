@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 02:52:08 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 03:55:22 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/01 01:31:35 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,54 +14,52 @@
 #include "philo_life.h"
 #include "using_thread_func.h"
 
-void	kill_multi_child_proc(t_childlen *childlen, int sig)
+void	kill_multi_child_proc(t_avl *childlen, int sig)
 {
-	int	i;
-
-	i = 0;
-	while (i++ < childlen->size)
-	{
-		if (kill(childlen->pid[i - 1], sig) == EPERM)
-		{
-			ft_print_error_message("this parent process does not \
-					have a permission to send signal\n", __FILE__, __func__);
-		}
-	}
+	if (childlen == NULL)
+		return ;
+	if (childlen->left)
+		destruct_avl(childlen->left);
+	if (childlen->right)
+		destruct_avl(childlen->right);
+	if (kill(childlen->val, sig) == EPERM)
+		ft_print_error_message("this parent process does not \
+			have a permission to send signal\n", __FILE__, __func__);
 }
 
 static void	*wait_all_childlen_ate(void *val)
 {
-	int			i;
-	t_childlen	*childlen;
+	int				i;
+	t_sem_and_size	*data;
 
-	childlen = (t_childlen *)val;
+	data = (t_sem_and_size *)val;
 	i = 0;
-	while (i++ < childlen->size)
-		sem_wait(childlen->term_sem);
-	kill_multi_child_proc(childlen, SIGINT);
+	while (i++ < data->size)
+		sem_wait(data->sem);
 	return (NULL);
 }
 
-void	wait_for_childlen(t_childlen *childlen)
+void	wait_for_childlen(t_avl *childlen, int sem_size)
 {
-	pthread_t	tid2;
-	int			status;
+	pthread_t		tid2;
+	int				status;
+	pid_t			val;
+	t_sem_and_size	data;
 
-	pthread_create(&tid2, NULL, wait_all_childlen_ate, (void *)childlen);
-	waitpid(-1, &status, 0);
+	data.sem = childlen->term_sem;
+	data.size = sem_size;
+	pthread_create(&tid2, NULL, wait_all_childlen_ate, (void *)&data);
+	val = waitpid(-1, &status, 0);
 	if (WIFEXITED(status))
 	{
-		kill_multi_child_proc(childlen, SIGTERM);
 		if (WEXITSTATUS(status))
-			printf("%ld %d died\n", get_mtime(), _W_INT(status) >> 8);
+			printf("%ld %d died\n", get_mtime(), seach_node(childlen, val)->key);
 		pthread_detach(tid2);
-		free(childlen->pid);
-		free(childlen);
+		destruct_avl(childlen);
 		return ;
 	}
 	pthread_join(tid2, NULL);
-	free(childlen->pid);
-	free(childlen);
+	destruct_avl(childlen);
 }
 
 static void	*death_monitor(void *ph)
