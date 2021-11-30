@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 23:39:04 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/01 01:28:20 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/01 01:49:48 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,18 @@ static t_avl	*ft_start_child_process(t_philo *philo, sem_t *term_sem)
 static t_avl	*synchronize_all_proc(t_philo *philo, sem_t *prepare)
 {
 	int		i;
+	sem_t	*term_sem;
 	t_avl	*childlen;
 
 	i = 0;
 	while (i++ < philo->all->philo_num)
 		sem_wait(prepare);
-	childlen = ft_start_child_process(philo, prepare);
+	sem_unlink(TERM_SEM);
+	term_sem = sem_open(TERM_SEM, O_CREAT | O_EXCL, \
+									700, philo->all->philo_num);
+	if (term_sem == SEM_FAILED)
+		return (NULL);
+	childlen = ft_start_child_process(philo, term_sem);
 	if (childlen == NULL)
 		return (NULL);
 	i = 0;
