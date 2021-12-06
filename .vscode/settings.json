@@ -1,0 +1,7 @@
+{
+	"files.associations": {
+		"ios": "c",
+		"using_thread_func.h": "c",
+		"avl_tree.h": "c"
+	}
+}

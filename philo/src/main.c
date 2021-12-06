@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 14:53:19 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 00:26:47 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/05 22:36:37 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ static bool	launch_threads(int start, int number_of_philo, pthread_t *tid, \
 		if (pthread_create(&tid[index], NULL, the_life_of_philo, \
 								(void *)&philo[index]))
 		{
+			index = 0;
+			while (index++ < number_of_philo)
+				pthread_join(tid[index - 1], NULL);
 			ft_destroy_philo(philo, index, 1);
 			return (false);
 		}

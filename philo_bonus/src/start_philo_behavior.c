@@ -6,13 +6,13 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 23:39:04 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/01 01:49:48 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/06 23:39:33 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "start_philo_behavior.h"
 #include "using_thread_func.h"
-#include "avl_tree.h"
+#include "./utils/avl_tree/avl_tree.h"
 
 static t_avl	*ft_start_child_process(t_philo *philo, sem_t *term_sem)
 {

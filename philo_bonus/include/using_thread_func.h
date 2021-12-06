@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 02:52:47 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/01 01:25:49 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/06 23:38:59 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include <semaphore.h>
 # include <signal.h>
 # include "start_philo_behavior.h"
-# include "avl_tree.h"
+# include "../src/utils/avl_tree/avl_tree.h"
 
 typedef struct s_sem_and_size
 {

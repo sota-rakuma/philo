@@ -37,7 +37,7 @@ $(OBJS_DIR):
 
 #$(OBJS): $(OBJS_DIR)/%.o: $(SRC_DIR)/%.c $(SRC_DIR)/$(UTILS_DIR)/%.c
 $(OBJS_DIR)/%.o: %.c
-	gcc $(CFLAGS) -I./include -MMD -MP -c -o $@ $<
+	$(CC) $(CFLAGS) -I./include -MMD -MP -c -o $@ $<
 	@mv $(OBJS_DIR)/*.d $(DEPS_DIR)/
 
 -include $(DEPS)
