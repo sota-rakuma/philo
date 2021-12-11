@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_error.c                                   :+:      :+:    :+:   */
+/*   print_err.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:22:17 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/25 23:32:18 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:47:11 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static void	ft_putstr_fd(const char *str, int fd)
 	write(fd, str, len);
 }
 
-void	ft_print_error_message(const char *message, const char filename[], \
+void	print_err(const char *message, const char filename[], \
 									const char funcname[])
 {
 	ft_putstr_fd(filename, 2);

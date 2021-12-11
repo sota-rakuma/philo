@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/28 19:22:07 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/06 20:04:33 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:47:39 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 void	write_cs(t_cs *cs, long val)
 {
 	if (pthread_mutex_lock(&cs->value_mutex))
-		ft_print_error_message("mutex lock error", __FILE__, __func__);
+		print_err("mutex lock error", __FILE__, __func__);
 	cs->value = val;
 	if (pthread_mutex_unlock(&cs->value_mutex))
-		ft_print_error_message("mutex unlock error", __FILE__, __func__);
+		print_err("mutex unlock error", __FILE__, __func__);
 }
 
 long	read_cs(t_cs *cs)
@@ -26,17 +26,17 @@ long	read_cs(t_cs *cs)
 	long	ret;
 
 	if (pthread_mutex_lock(&cs->value_mutex))
-		ft_print_error_message("mutex lock error", __FILE__, __func__);
+		print_err("mutex lock error", __FILE__, __func__);
 	ret = cs->value;
 	if (pthread_mutex_unlock(&cs->value_mutex))
-		ft_print_error_message("mutex unlock error", __FILE__, __func__);
+		print_err("mutex unlock error", __FILE__, __func__);
 	return (ret);
 }
 
 void	atomic_read_write(t_cs *cs, long val, t_op op)
 {
 	if (pthread_mutex_lock(&cs->value_mutex))
-		ft_print_error_message("mutex lock error", __FILE__, __func__);
+		print_err("mutex lock error", __FILE__, __func__);
 	if (op == ADD)
 		cs->value += val;
 	else if (op == SUB)
@@ -50,13 +50,13 @@ void	atomic_read_write(t_cs *cs, long val, t_op op)
 	else
 		cs->value = val;
 	if (pthread_mutex_unlock(&cs->value_mutex))
-		ft_print_error_message("mutex unlock error", __FILE__, __func__);
+		print_err("mutex unlock error", __FILE__, __func__);
 }
 
 void	atomic_read_write_status(t_loop *loop, int val, t_op op)
 {
 	if (pthread_mutex_lock(&loop->value_mu))
-		ft_print_error_message("mutex lock error", __FILE__, __func__);
+		print_err("mutex lock error", __FILE__, __func__);
 	if (op == ADD)
 		loop->value += val;
 	else if (op == SUB)
@@ -70,7 +70,7 @@ void	atomic_read_write_status(t_loop *loop, int val, t_op op)
 	else
 		loop->value = val;
 	if (pthread_mutex_unlock(&loop->value_mu))
-		ft_print_error_message("mutex unlock error", __FILE__, __func__);
+		print_err("mutex unlock error", __FILE__, __func__);
 }
 
 int	read_status(t_loop *loop)
@@ -78,9 +78,9 @@ int	read_status(t_loop *loop)
 	int	ret;
 
 	if (pthread_mutex_lock(&loop->value_mu))
-		ft_print_error_message("mutex lock error", __FILE__, __func__);
+		print_err("mutex lock error", __FILE__, __func__);
 	ret = loop->value;
 	if (pthread_mutex_unlock(&loop->value_mu))
-		ft_print_error_message("mutex unlock error", __FILE__, __func__);
+		print_err("mutex unlock error", __FILE__, __func__);
 	return (ret);
 }

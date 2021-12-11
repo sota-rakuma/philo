@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 15:28:38 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/11 14:26:27 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:47:39 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	main(int ac, char **av)
 
 	if (ac < 5 || 6 < ac)
 	{
-		ft_print_error_message("input right argument", __FILE__, __func__);
+		print_err("input right argument", __FILE__, __func__);
 		return (FAILURE);
 	}
 	pid = fork();

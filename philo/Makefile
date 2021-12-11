@@ -12,7 +12,7 @@ SRC_FILES:=main.c \
 	destroy.c \
 	ft_ato_num.c \
 	ft_isdigit.c \
-	ft_print_error.c \
+	print_err.c \
 	ft_strlen.c \
 	ft_msleep_until_time.c \
 	get_mtime.c

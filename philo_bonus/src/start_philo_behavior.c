@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 23:39:04 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/11 15:09:34 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:49:34 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,7 @@ static t_avl	*ft_start_child_process(t_philo *philo)
 		{
 			kill_multi_child_proc(root, SIGTERM);
 			destruct_avl(root);
-			ft_print_error_message("could not make a child process", \
-														__FILE__, __func__);
+			print_err("could not make a child process", __FILE__, __func__);
 			return (NULL);
 		}
 		else if (node->val == 0)
@@ -68,7 +67,7 @@ void	start_philo_life(t_philo *philo)
 	sync_sem = sem_open(SYNC, O_CREAT | O_EXCL, 700, philo->all->philo_num);
 	if (sync_sem == SEM_FAILED)
 	{
-		ft_print_error_message("sem_open error", __FILE__, __func__);
+		print_err("sem_open error", __FILE__, __func__);
 		return ;
 	}
 	childlen = synchronize_all_proc(philo, sync_sem);

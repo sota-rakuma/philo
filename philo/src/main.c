@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 14:53:19 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/05 22:36:37 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:47:39 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ int	main(int ac, char **av)
 
 	if (ac < 5 || 6 < ac)
 	{
-		ft_print_error_message("input right argument", __FILE__, __func__);
+		print_err("input right argument", __FILE__, __func__);
 		return (FAILURE);
 	}
 	philo = ft_init_philo(ac, av);
 	if (!philo)
 	{
-		ft_print_error_message("init philo error", __FILE__, __func__);
+		print_err("init philo error", __FILE__, __func__);
 		return (FAILURE);
 	}
 	ft_controlling_thread(philo, philo->all->philo_num);

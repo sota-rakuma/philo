@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 13:56:32 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 23:16:31 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:47:39 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static t_mutex	*ft_init_mutexes(int size)
 		if (pthread_mutex_init(&mutexes[index - 1], NULL))
 		{
 			ft_destroy_mutex(mutexes, index);
-			ft_print_error_message("mutex_init error", __FILE__, __func__);
+			print_err("mutex_init error", __FILE__, __func__);
 			return (NULL);
 		}
 	}
@@ -64,7 +64,7 @@ static t_all	*ft_init_elements(int ac, char **av)
 	all = (t_all *)malloc(sizeof(t_all));
 	if (!all)
 	{
-		ft_print_error_message("failure of malloc", __FILE__, __func__);
+		print_err("failure of malloc", __FILE__, __func__);
 		return (NULL);
 	}
 	all->philo_num = ft_atoi(av[1]);
@@ -80,7 +80,7 @@ static t_all	*ft_init_elements(int ac, char **av)
 		| pthread_mutex_init(&all->loop.value_mu, NULL))
 	{
 		free(all);
-		ft_print_error_message("init t_all error", __FILE__, __func__);
+		print_err("init t_all error", __FILE__, __func__);
 		return (NULL);
 	}
 	return (all);

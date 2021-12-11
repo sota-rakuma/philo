@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 13:32:08 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/05 17:29:26 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:47:39 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ft_destroy_mutex(t_mutex *mutexes, size_t size)
 	{
 		if (pthread_mutex_destroy(&mutexes[index - 1]))
 		{
-			ft_print_error_message("mutex_destroy_error", __FILE__, __func__);
+			print_err("mutex_destroy_error", __FILE__, __func__);
 			return (1);
 		}
 	}

@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 02:52:08 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/11 15:14:05 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:50:10 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	kill_multi_child_proc(t_avl *childlen, int sig)
 	if (childlen->right)
 		kill_multi_child_proc(childlen->right, sig);
 	if (kill(childlen->val, sig) == EPERM)
-		ft_print_error_message("this parent process does not \
+		print_err("this parent process does not \
 			have a permission to send signal\n", __FILE__, __func__);
 }
 
@@ -40,35 +40,27 @@ static void	*wait_all_childlen_ate(void *val)
 	return (NULL);
 }
 
-static void	philo_die_proc(t_avl *childlen, int status, pid_t pid)
-{
-	sem_t	*for_print;
-
-	for_print = sem_open(FOR_PRINT, 0);
-	if (for_print == SEM_FAILED)
-	{
-		ft_print_error_message("sem for print open error", __FILE__, __func__);
-		return ;
-	}
-	sem_wait(for_print);
-	if (WEXITSTATUS(status))
-		printf("%ld %d died\n", get_mtime(), seach_node(childlen, pid)->key);
-	kill_multi_child_proc(childlen, SIGTERM);
-	sem_post(for_print);
-	sem_close(for_print);
-}
-
 void	wait_for_childlen(t_node_and_sem data)
 {
 	pthread_t		tid;
 	int				status;
 	pid_t			pid;
+	sem_t			*for_print;
 
 	pthread_create(&tid, NULL, wait_all_childlen_ate, (void *)&data);
 	pid = waitpid(-1, &status, 0);
 	if (WIFEXITED(status))
 	{
-		philo_die_proc(data.avl, status, pid);
+		for_print = sem_open(FOR_PRINT, 0);
+		if (for_print == SEM_FAILED)
+			return (print_err("sem for print open error", __FILE__, __func__));
+		sem_wait(for_print);
+		if (WEXITSTATUS(status))
+			printf("%ld %d died\n", get_mtime(), \
+						seach_node(data.avl, pid)->key);
+		kill_multi_child_proc(data.avl, SIGTERM);
+		sem_post(for_print);
+		sem_close(for_print);
 		pthread_detach(tid);
 	}
 	else

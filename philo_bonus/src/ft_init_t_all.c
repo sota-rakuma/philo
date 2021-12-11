@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 00:27:20 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 03:34:41 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:47:39 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static bool	ft_get_all_elements(t_all *all, int ac, char **av)
 	all->for_print = sem_open("for_print", O_CREAT | O_EXCL, 700, 1);
 	if (all->for_print == SEM_FAILED)
 	{
-		ft_print_error_message("sem open error", __FILE__, __func__);
+		print_err("sem open error", __FILE__, __func__);
 		return (false);
 	}
 	all->philo_num = ft_atoi(av[1]);
@@ -63,14 +63,14 @@ t_all	*ft_init_elements(int ac, char **av)
 	all = (t_all *)malloc(sizeof(t_all));
 	if (!all)
 	{
-		ft_print_error_message("failure of malloc", __FILE__, __func__);
+		print_err("failure of malloc", __FILE__, __func__);
 		exit(FAILURE);
 	}
 	if ((ft_get_all_elements(all, ac, av) == false)
 		| (ft_check_arg(ac, av, all) == false))
 	{
 		free(all);
-		ft_print_error_message("init t_all error", __FILE__, __func__);
+		print_err("init t_all error", __FILE__, __func__);
 		exit(FAILURE);
 	}
 	return (all);

@@ -14,7 +14,7 @@ SRC_FILES:=ft_init_t_all.c \
 	ft_itoa.c \
 	ft_isdigit.c \
 	ft_msleep_until_time.c \
-	ft_print_error.c \
+	print_err.c \
 	ft_strlen.c \
 	get_mtime.c
 
