@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/31 23:39:04 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/11 14:43:00 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:09:34 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,6 @@ void	start_philo_life(t_philo *philo)
 	childlen = synchronize_all_proc(philo, sync_sem);
 	if (childlen == NULL)
 		return ;
-	return (wait_for_childlen(&(t_node_and_sem){childlen, \
+	return (wait_for_childlen((t_node_and_sem){childlen, \
 				sync_sem, philo->all->philo_num}));
 }

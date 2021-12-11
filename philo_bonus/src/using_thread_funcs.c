@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 02:52:08 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/11 14:36:53 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 15:14:05 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ void	kill_multi_child_proc(t_avl *childlen, int sig)
 	if (childlen == NULL)
 		return ;
 	if (childlen->left)
-		destruct_avl(childlen->left);
+		kill_multi_child_proc(childlen->left, sig);
 	if (childlen->right)
-		destruct_avl(childlen->right);
+		kill_multi_child_proc(childlen->right, sig);
 	if (kill(childlen->val, sig) == EPERM)
 		ft_print_error_message("this parent process does not \
 			have a permission to send signal\n", __FILE__, __func__);
@@ -58,7 +58,7 @@ static void	philo_die_proc(t_avl *childlen, int status, pid_t pid)
 	sem_close(for_print);
 }
 
-void	wait_for_childlen(t_node_and_sem *data)
+void	wait_for_childlen(t_node_and_sem data)
 {
 	pthread_t		tid;
 	int				status;
@@ -68,12 +68,12 @@ void	wait_for_childlen(t_node_and_sem *data)
 	pid = waitpid(-1, &status, 0);
 	if (WIFEXITED(status))
 	{
-		philo_die_proc(data->avl, status, pid);
+		philo_die_proc(data.avl, status, pid);
 		pthread_detach(tid);
 	}
 	else
 		pthread_join(tid, NULL);
-	destruct_avl(data->avl);
+	destruct_avl(data.avl);
 }
 
 static void	*death_monitor(void *ph)
