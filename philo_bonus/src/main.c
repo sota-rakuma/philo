@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/30 15:28:38 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 03:33:07 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 14:26:27 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,7 @@
 static void	ft_all_sem_unlink(void)
 {
 	sem_unlink(FORK);
-	sem_unlink(PREPARE);
-	sem_unlink(TERM_SEM);
+	sem_unlink(SYNC);
 	sem_unlink(RESERVE);
 	sem_unlink(FOR_PRINT);
 }

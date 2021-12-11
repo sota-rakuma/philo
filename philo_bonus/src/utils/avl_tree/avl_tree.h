@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/26 20:49:14 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/01 00:56:37 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 14:08:49 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,12 @@ typedef struct s_avl
 	int				depth;
 	unsigned int	key;
 	int				val;
-	sem_t			*term_sem;
 	struct s_avl	*parent;
 	struct s_avl	*left;
 	struct s_avl	*right;
 }				t_avl;
 
-t_avl	*create_node(int key, int val, sem_t *sem);
+t_avl	*create_node(int key, int val);
 void	destruct_avl(t_avl *node);
 int		add_node(t_avl *new, t_avl **node);
 int		get_diff_of_depth(t_avl *left, t_avl *right);

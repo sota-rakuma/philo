@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/02 00:27:49 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/08 04:07:53 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 14:10:43 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,8 @@
 #  define FORK "fork"
 #  define RESERVE "reservation"
 #  define FOR_PRINT "for_print"
-#  define PREPARE "prepare"
+#  define SYNC "sync"
 #  define FOR_EATEN_CNT "for_eaten_cnt"
-#  define TERM_SEM "term_sem"
 # endif
 
 # include <stdio.h>
