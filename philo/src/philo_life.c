@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 16:49:33 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/11 16:19:56 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 16:48:27 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,9 @@ static void	*ft_death_monitor(void *val)
 	if (read_status(&philo->all->loop) == philo->all->philo_num)
 		return (NULL);
 	atomic_read_write_status(&philo->all->loop, philo->all->philo_num, ASSIGN);
+	ft_print_philos_status(philo, DIED);
 	pthread_mutex_unlock(philo->forks[LEFT]);
 	pthread_mutex_unlock(philo->forks[RIGHT]);
-	ft_print_philos_status(philo, DIED);
 	return (NULL);
 }
 
@@ -69,8 +69,6 @@ void	*the_life_of_philo(void *ph)
 	while (1)
 	{
 		if (ft_philo_eat(philo) == false)
-			break ;
-		if (read_status(&philo->all->loop) == philo->all->philo_num)
 			break ;
 		ft_print_philos_status(philo, SLEEP);
 		ft_msleep_until_time(get_mtime() + philo->all->time_to_sleep);

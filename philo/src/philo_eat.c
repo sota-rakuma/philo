@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:17:16 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/11 16:20:03 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 16:48:46 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ static bool	ft_cleanup(t_philo *philo)
 {
 	pthread_mutex_unlock(philo->forks[RIGHT]);
 	pthread_mutex_unlock(philo->forks[LEFT]);
+	if (read_status(&philo->all->loop) == philo->all->philo_num)
+		return (false);
 	if (read_cs(&philo->eaten) == philo->all->min_times_eat)
 		atomic_read_write_status(&philo->all->loop, 1, ADD);
 	return (true);
