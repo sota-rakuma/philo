@@ -6,19 +6,24 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/21 23:33:15 by srakuma           #+#    #+#             */
-/*   Updated: 2021/10/26 15:00:00 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 17:42:15 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 #include "read_write_cs.h"
 
-void	ft_print_philos_status(t_philo *philo, t_status status)
+bool	ft_print_philos_status(t_philo *philo, t_status status)
 {
-	long	time;
 	char	*str;
+	bool	flag;
 
-	if (status == EAT)
+	pthread_mutex_lock(&philo->all->loop.value_mu);
+	flag = true;
+	str = NULL;
+	if (philo->all->loop.value == philo->all->philo_num)
+		flag = false;
+	else if (status == EAT)
 		str = "is eating";
 	else if (status == SLEEP)
 		str = "is sleeping";
@@ -27,7 +32,12 @@ void	ft_print_philos_status(t_philo *philo, t_status status)
 	else if (status == THINK)
 		str = "is thinking";
 	else
+	{
+		philo->all->loop.value = philo->all->philo_num;
 		str = "died";
-	time = get_mtime();
-	printf("%ld %d %s\n", time, philo->number_X, str);
+	}
+	if (flag)
+		printf("%ld %d %s\n", get_mtime(), philo->number_X, str);
+	pthread_mutex_unlock(&philo->all->loop.value_mu);
+	return (flag);
 }

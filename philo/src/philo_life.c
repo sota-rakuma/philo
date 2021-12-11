@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/24 16:49:33 by srakuma           #+#    #+#             */
-/*   Updated: 2021/12/11 16:48:27 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 17:39:50 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,6 @@ static void	*ft_death_monitor(void *val)
 		deadline = lastmeal_time + philo->all->time_to_die;
 		ft_msleep_until_time(deadline);
 	}
-	if (read_status(&philo->all->loop) == philo->all->philo_num)
-		return (NULL);
-	atomic_read_write_status(&philo->all->loop, philo->all->philo_num, ASSIGN);
 	ft_print_philos_status(philo, DIED);
 	pthread_mutex_unlock(philo->forks[LEFT]);
 	pthread_mutex_unlock(philo->forks[RIGHT]);
@@ -62,19 +59,17 @@ void	*the_life_of_philo(void *ph)
 
 	philo = (t_philo *)ph;
 	ft_get_philo_ele(philo);
-	if (read_status(&philo->all->loop) == philo->all->philo_num)
+	if (ft_print_philos_status(philo, THINK) == false)
 		return (NULL);
-	ft_print_philos_status(philo, THINK);
 	pthread_create(&tid, NULL, ft_death_monitor, ph);
 	while (1)
 	{
-		if (ft_philo_eat(philo) == false)
+		if (ft_philo_eat(philo) == false
+			|| ft_print_philos_status(philo, SLEEP) == false)
 			break ;
-		ft_print_philos_status(philo, SLEEP);
 		ft_msleep_until_time(get_mtime() + philo->all->time_to_sleep);
-		if (read_status(&philo->all->loop) == philo->all->philo_num)
+		if (ft_print_philos_status(philo, THINK) == false)
 			break ;
-		ft_print_philos_status(philo, THINK);
 	}
 	pthread_join(tid, NULL);
 	return (NULL);
