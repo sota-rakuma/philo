@@ -6,7 +6,7 @@
 /*   By: srakuma <srakuma@student.42tokyo.jp>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/26 14:17:16 by srakuma           #+#    #+#             */
-/*   Updated: 2021/11/06 20:05:10 by srakuma          ###   ########.fr       */
+/*   Updated: 2021/12/11 16:20:03 by srakuma          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,6 @@ static bool	taken_forks_at_both_side_of_philo(t_philo *philo)
 {
 	if (taken_fork(philo, LEFT) == false)
 		return (false);
-	if (philo->forks[LEFT] == philo->forks[RIGHT])
-	{
-		pthread_mutex_unlock(philo->forks[LEFT]);
-		return (false);
-	}
 	if (taken_fork(philo, RIGHT) == false)
 	{
 		pthread_mutex_unlock(philo->forks[LEFT]);
